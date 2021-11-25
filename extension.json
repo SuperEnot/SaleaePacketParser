@@ -7,7 +7,7 @@
   "extensions": {
     "SaleaePacketParser": {
       "type": "HighLevelAnalyzer",
-      "entryPoint": "HighLevelAnalyzer.Hla"
+      "entryPoint": "SaleaePacketParser.Hla"
     }
   }
 }
