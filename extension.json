@@ -5,8 +5,8 @@
   "version": "0.0.2",
   "description": "This is a Saleae Logic custom high level analyzer that allows you to search and mark specific packets.",
   "extensions": {
-    "FlagPanel": {
-      "type": "SaleaePacketParser",
+    "SaleaePacketParser": {
+      "type": "HighLevelAnalyzer",
       "entryPoint": "HighLevelAnalyzer.Hla"
     }
   }
