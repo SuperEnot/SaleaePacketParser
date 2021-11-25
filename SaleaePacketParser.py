@@ -19,16 +19,15 @@ class Hla(HighLevelAnalyzer):
     prefix = StringSetting(label='Message Prefix (optional)')
 
     result_types = {
-        'Sergo': {
-            'format': '{{data.decoded}}'
+        'dec': {
+            'format': '{{data.prefix}}'
         },
     }
     def __init__(self):
 
         self.print_cnt = 0
 
-        self.search_index = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
-        self.flag_ind =[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
+        self.search_index = 0
         self.match_start_time = None
         self.match_end_time = None
         
@@ -37,19 +36,19 @@ class Hla(HighLevelAnalyzer):
 
         self.search_len = 0
         self.search_raw = []
-        nums = self.search_for.split(",")
+        nums = self.search_for.split()
         base = 10
-        for c in nums:
-            temp =c.split()
-            for i in range(len(temp)):
-                temp[i] = int(temp[i],16)
-                
-            print(temp)
-            self.search_raw.append(temp)
+        print(nums)
+        if (self.search_in_type == "Hex"):
+            base = 16
+        for n in nums:
+            try:
+                self.search_raw.append(int(n,base))
                
+            except:
 
+                continue
             self.search_len += 1
-        print(len(self.search_raw))
 
 
     def decode(self, frame: AnalyzerFrame):
@@ -62,55 +61,50 @@ class Hla(HighLevelAnalyzer):
         except:
             return
 
-        #print(frame.data['data'][0])
 
 
-        for x in range(len(self.search_raw)):
-            if ch != self.search_raw[x][self.search_index[x]]:
-                self.search_index[x] = 0
-            if ch == self.search_raw[x][self.search_index[x]]:
-                frames = []
-                if self.search_index[x] == 0:
-                    self.match_start_time = frame.start_time
-                self.search_index[x] = self.search_index[x] + 1
-
-        #if ch != self.search_raw[self.search_index]:
-        #    self.search_index = 0
-        #    
-		#
-		#
-        #if ch == self.search_raw[self.search_index]:
-        #    frames = []
-        #    if self.search_index == 0:
-        #        self.match_start_time = frame.start_time
-        #    self.search_index = self.search_index + 1
-        #    if self.search_index == self.search_len:
-        #        self.match_end_time = frame.end_time
-		#
-        #        char = ''
-        #        for i in range(self.search_len):
-		#
-		#
-        #            if (self.search_in_type == "Hex"):
-		#
-        #                char += "%02x " % self.search_raw[i]
-		#
-        #            else:
-		#
-        #                char += chr(self.search_raw[i])
+        if self.search_len == 0:
+            return
 
 
 
-         #       frames.append(AnalyzerFrame(
-		 #
-         #           'Sergo', self.match_start_time, self.match_end_time, {
-		 #
-         #           'decoded': str(self.prefix) + char.strip()
-		 #
-         #       }))
-		 #
-         #       self.search_index = 0
-		 #
-		 #
-		 #
-         #   return frames
+        if ch != self.search_raw[self.search_index]:
+            self.search_index = 0
+            
+
+
+        if ch == self.search_raw[self.search_index]:
+            frames = []
+            if self.search_index == 0:
+                self.match_start_time = frame.start_time
+            self.search_index = self.search_index + 1
+            if self.search_index == self.search_len:
+                self.match_end_time = frame.end_time
+
+                char = ''
+                for i in range(self.search_len):
+
+
+                    if (self.search_in_type == "Hex"):
+
+                        char += "%02x " % self.search_raw[i]
+
+                    else:
+
+                        char += chr(self.search_raw[i])
+
+
+
+                frames.append(AnalyzerFrame(
+
+                    'dec', self.match_start_time, self.match_end_time, {
+
+                    'prefix':str(self.prefix), 'decoded': char.strip() 
+
+                }))
+
+                self.search_index = 0
+
+
+
+            return frames
