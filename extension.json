@@ -1,0 +1,13 @@
+{
+  "name": "FlagPanel",
+  "apiVersion": "1.0.0",
+  "author": "Super Enot",
+  "version": "0.0.2",
+  "description": "",
+  "extensions": {
+    "FlagPanel": {
+      "type": "HighLevelAnalyzer",
+      "entryPoint": "HighLevelAnalyzer.Hla"
+    }
+  }
+}
