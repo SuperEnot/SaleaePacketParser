@@ -2,7 +2,7 @@
   "name": "SaleaePacketParser",
   "apiVersion": "1.0.0",
   "author": "Super Enot",
-  "version": "0.0.2",
+  "version": "1.0.1",
   "description": "This is a Saleae Logic custom high level analyzer that allows you to search and mark specific packets.",
   "extensions": {
     "SaleaePacketParser": {
