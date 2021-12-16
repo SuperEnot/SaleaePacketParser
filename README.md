@@ -10,4 +10,3 @@ This is a Saleae Logic custom high level analyzer that allows you to search and 
 Field "Search For" is used for HEX input only with space delimiters.
 
 ![image](images/4.png)
-
